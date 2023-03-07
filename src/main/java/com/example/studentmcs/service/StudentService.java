@@ -3,7 +3,10 @@ package com.example.studentmcs.service;
 import com.example.studentmcs.dto.requestDto.StudentRequestDto;
 import com.example.studentmcs.model.Student;
 import com.example.studentmcs.repository.StudentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class StudentService implements IStudentService {
@@ -22,4 +25,26 @@ public class StudentService implements IStudentService {
         student.setLastName(studentRequestDto.getLastName());
         return studentRepository.save(student);
     }
+
+    @Override
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
+    }
+
+    @Override
+    public Student viewStudent(Long studentId) {
+        return studentRepository.findById(studentId).orElseThrow(() -> new IllegalArgumentException("student with studentId: " + studentId + " could not be found!"));
+    }
+
+    @Transactional
+    @Override
+    public Student updateStudentProfile(Long studentId, StudentRequestDto studentRequestDto) {
+        Student studentProfileToUpdate = viewStudent(studentId);
+        studentProfileToUpdate.setEmail(studentRequestDto.getEmail());
+        studentProfileToUpdate.setFirstName(studentRequestDto.getFirstName());
+        studentProfileToUpdate.setLastName(studentRequestDto.getLastName());
+        return studentRepository.save(studentProfileToUpdate);
+    }
+
+
 }
