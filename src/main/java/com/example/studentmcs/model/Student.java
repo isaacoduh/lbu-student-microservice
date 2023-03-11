@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -28,12 +31,25 @@ public class Student {
     @Email
     private String email;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Course> courses = new ArrayList<>();
+
     public  Student(String studentId,String firstName, String lastName, String email)
     {
         this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public void addCourse(Course course)
+    {
+        courses.add(course);
+    }
+
+    public void removeCourse(Course course)
+    {
+        courses.remove(course);
     }
 
 }
