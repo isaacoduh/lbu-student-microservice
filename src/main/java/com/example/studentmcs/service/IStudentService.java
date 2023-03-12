@@ -11,6 +11,7 @@ public interface IStudentService {
     public Student registerStudent(StudentRequestDto studentRequestDto);
     public List<Student> getAllStudents();
     public Student viewStudent(Long studentId);
+    public Student getStudent(Long studentId);
     public Student updateStudentProfile(Long studentId, StudentRequestDto studentRequestDto);
     // TODO: Add Graduation
 }

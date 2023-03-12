@@ -36,6 +36,14 @@ public class StudentService implements IStudentService {
         return studentRepository.findById(studentId).orElseThrow(() -> new IllegalArgumentException("student with studentId: " + studentId + " could not be found!"));
     }
 
+    @Override
+    public Student getStudent(Long studentId) {
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new IllegalArgumentException("student with id: " + studentId + " could not be found")
+        );
+        return student;
+    }
+
     @Transactional
     @Override
     public Student updateStudentProfile(Long studentId, StudentRequestDto studentRequestDto) {

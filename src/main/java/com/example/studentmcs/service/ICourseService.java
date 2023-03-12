@@ -9,4 +9,7 @@ import java.util.List;
 public interface ICourseService {
     public List<Course> getAllCourses();
     public List<Course> searchCourses(String query);
+    public Course getCourse(Long courseId);
+    public Course addStudentToCourse(Long courseId, Long studentId);
+    public Course removeStudentFromCourse(Long courseId, Long studentId);
 }
