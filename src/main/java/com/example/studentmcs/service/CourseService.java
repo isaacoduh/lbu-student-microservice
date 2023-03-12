@@ -1,11 +1,15 @@
 package com.example.studentmcs.service;
 
+import com.example.studentmcs.dto.mapper;
+import com.example.studentmcs.dto.responseDto.CourseResponseDto;
 import com.example.studentmcs.model.Course;
 import com.example.studentmcs.model.Student;
 import com.example.studentmcs.repository.CourseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class CourseService implements ICourseService {
@@ -17,8 +21,10 @@ public class CourseService implements ICourseService {
         this.studentService = studentService;
     }
     @Override
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+    public List<CourseResponseDto> getAllCourses() {
+
+        List<Course> courses = StreamSupport.stream(courseRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        return mapper.coursesToCourseResponseDtos(courses);
     }
 
     @Override

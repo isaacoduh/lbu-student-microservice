@@ -1,5 +1,6 @@
 package com.example.studentmcs.controller;
 
+import com.example.studentmcs.dto.responseDto.CourseResponseDto;
 import com.example.studentmcs.model.Course;
 import com.example.studentmcs.service.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class CourseController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Course>> getAllCourses() {
-        List<Course> courses = courseService.getAllCourses();
-        return new ResponseEntity<List<Course>>(courses, HttpStatus.OK);
+    public ResponseEntity<List<CourseResponseDto>> getAllCourses() {
+        List<CourseResponseDto> courses = courseService.getAllCourses();
+        return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 
     @GetMapping("/search")

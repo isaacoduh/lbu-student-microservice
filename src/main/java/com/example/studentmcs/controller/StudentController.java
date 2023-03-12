@@ -1,6 +1,7 @@
 package com.example.studentmcs.controller;
 
 import com.example.studentmcs.dto.requestDto.StudentRequestDto;
+import com.example.studentmcs.dto.responseDto.StudentResponseDto;
 import com.example.studentmcs.model.Student;
 import com.example.studentmcs.service.IStudentService;
 import com.example.studentmcs.service.StudentService;
@@ -29,9 +30,9 @@ public class StudentController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Student>> getAllStudents(){
-        List<Student> students = studentService.getAllStudents();
-        return new ResponseEntity<List<Student>>(students, HttpStatus.OK);
+    public ResponseEntity<List<StudentResponseDto>> getAllStudents(){
+        List<StudentResponseDto> studentResponseDtos = studentService.getAllStudents();
+        return new ResponseEntity<>(studentResponseDtos, HttpStatus.OK);
     }
 
     @GetMapping("/getById/{id}")

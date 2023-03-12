@@ -1,12 +1,18 @@
 package com.example.studentmcs.service;
 
 import com.example.studentmcs.dto.requestDto.StudentRequestDto;
+import com.example.studentmcs.dto.mapper;
+
+import com.example.studentmcs.dto.responseDto.StudentResponseDto;
 import com.example.studentmcs.model.Student;
 import com.example.studentmcs.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class StudentService implements IStudentService {
@@ -27,8 +33,11 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public List<StudentResponseDto> getAllStudents() {
+        List<Student> students = StreamSupport.stream(
+                studentRepository.findAll().spliterator(), false
+        ).collect(Collectors.toList());
+        return mapper.studentsToStudentResponseDtos(students);
     }
 
     @Override
