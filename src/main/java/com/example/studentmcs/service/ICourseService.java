@@ -11,6 +11,6 @@ public interface ICourseService {
     public List<CourseResponseDto> getAllCourses();
     public List<Course> searchCourses(String query);
     public Course getCourse(Long courseId);
-    public Course addStudentToCourse(Long courseId, Long studentId);
-    public Course removeStudentFromCourse(Long courseId, Long studentId);
+    public CourseResponseDto addStudentToCourse(Long courseId, Long studentId);
+    public CourseResponseDto removeStudentFromCourse(Long courseId, Long studentId);
 }

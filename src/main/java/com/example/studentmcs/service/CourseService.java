@@ -41,7 +41,7 @@ public class CourseService implements ICourseService {
     }
 
     @Override
-    public Course addStudentToCourse(Long courseId, Long studentId) {
+    public CourseResponseDto addStudentToCourse(Long courseId, Long studentId) {
         Course course = getCourse(courseId);
         Student student = studentService.getStudent(studentId);
         if(student.getCourses().contains(student)){
@@ -49,11 +49,12 @@ public class CourseService implements ICourseService {
         }
         course.addStudent(student);
         student.addCourse(course);
-        return course;
+        courseRepository.save(course);
+        return mapper.courseToCourseResponseDto(course);
     }
 
     @Override
-    public Course removeStudentFromCourse(Long courseId, Long studentId) {
+    public CourseResponseDto removeStudentFromCourse(Long courseId, Long studentId) {
         Course course = getCourse(courseId);
         Student student = studentService.getStudent(studentId);
         if(!(student.getCourses().contains(course))){
@@ -61,6 +62,6 @@ public class CourseService implements ICourseService {
         }
         student.removeCourse(course);
         course.deleteStudent(student);
-        return course;
+        return mapper.courseToCourseResponseDto(course);
     }
 }
