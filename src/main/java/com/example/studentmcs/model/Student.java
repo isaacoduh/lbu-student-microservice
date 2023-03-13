@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -32,7 +34,7 @@ public class Student {
     private String email;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Course> courses = new ArrayList<>();
+    private Set<Course> courses;
 
     public  Student(String studentId,String firstName, String lastName, String email)
     {
@@ -44,6 +46,7 @@ public class Student {
 
     public void addCourse(Course course)
     {
+
         courses.add(course);
     }
 

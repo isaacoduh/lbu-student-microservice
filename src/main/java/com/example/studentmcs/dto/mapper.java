@@ -7,12 +7,15 @@ import com.example.studentmcs.model.Student;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class mapper {
 
     public static CourseResponseDto courseToCourseResponseDto(Course course){
         CourseResponseDto courseResponseDto = new CourseResponseDto();
         courseResponseDto.setCourseId(course.getCourseId());
+        courseResponseDto.setCourseTitle(course.getCourseTitle());
+        courseResponseDto.setCourseTerm(course.getCourseTerm());
 
         List<String> lNames = new ArrayList<>();
         List<Student> students = course.getStudents();
@@ -38,9 +41,10 @@ public class mapper {
         studentResponseDto.setLastName(student.getLastName());
         studentResponseDto.setEmail(student.getEmail());
         List<String> enrolledCourses = new ArrayList<>();
-        List<Course> courses = student.getCourses();
+        Set<Course> courses = student.getCourses();
         for(Course course: courses) {
             enrolledCourses.add(course.getCourseTitle());
+            enrolledCourses.add(course.getCourseId());
         }
         studentResponseDto.setEnrolledCourses(enrolledCourses);
         return studentResponseDto;
