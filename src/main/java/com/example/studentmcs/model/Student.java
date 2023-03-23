@@ -6,6 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -28,12 +33,26 @@ public class Student {
     @Email
     private String email;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Course> courses;
+
     public  Student(String studentId,String firstName, String lastName, String email)
     {
         this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public void addCourse(Course course)
+    {
+
+        courses.add(course);
+    }
+
+    public void removeCourse(Course course)
+    {
+        courses.remove(course);
     }
 
 }
