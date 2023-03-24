@@ -36,6 +36,7 @@ public class StaffDto {
                 .email(staff.getEmail())
                 .gender(staff.getGender())
                 .isActive(staff.getIsActive())
+                .projects(projectPlainDtos)
                 .build();
     }
 }

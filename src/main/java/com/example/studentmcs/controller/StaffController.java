@@ -49,11 +49,20 @@ public class StaffController {
     }
 
     @PostMapping("/{staffId}/projects/{projectId}")
-    public ResponseEntity<StaffDto> addProjectToEmployee(
+    public ResponseEntity<StaffDto> addProjectToStaff(
             @PathVariable("staffId") final Long staffId,
             @PathVariable("projectId") final Long projectId
     ){
-        Staff staff = staffService.removeProjectFromStaff(staffId, projectId);
+        Staff staff = staffService.addProjectToStaff(staffId, projectId);
+        return ResponseEntity.status(HttpStatus.OK).body(StaffDto.from(staff));
+    }
+
+    @DeleteMapping("/{staffId}/projects/{projectId}")
+    public ResponseEntity<StaffDto> removeProjectFromStaff(
+            @PathVariable("staffId") final Long staffId,
+            @PathVariable("projectId") final Long projectId
+    ){
+        Staff staff = staffService.removeProjectFromStaff(staffId,projectId);
         return ResponseEntity.status(HttpStatus.OK).body(StaffDto.from(staff));
     }
 }

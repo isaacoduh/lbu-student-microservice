@@ -6,9 +6,11 @@ import com.example.studentmcs.model.Staff;
 import com.example.studentmcs.repository.ProjectRepository;
 import com.example.studentmcs.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ProjectService implements IProjectService{
     private final ProjectRepository projectRepository;
     private final StaffRepository staffRepository;

@@ -5,10 +5,12 @@ import com.example.studentmcs.model.Project;
 import com.example.studentmcs.model.Staff;
 import com.example.studentmcs.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class StaffService implements IStaffService{
 
     private final StaffRepository staffRepository;
