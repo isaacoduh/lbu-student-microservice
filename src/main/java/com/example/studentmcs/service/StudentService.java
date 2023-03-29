@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -61,6 +62,31 @@ public class StudentService implements IStudentService {
         studentProfileToUpdate.setFirstName(studentRequestDto.getFirstName());
         studentProfileToUpdate.setLastName(studentRequestDto.getLastName());
         return studentRepository.save(studentProfileToUpdate);
+    }
+
+    @Override
+    public Optional<Student> getStudentByUsername(String username) {
+        return studentRepository.findByUsername(username);
+    }
+
+    @Override
+    public boolean hasStudentWithUsername(String username) {
+        return studentRepository.existsByUsername(username);
+    }
+
+    @Override
+    public boolean hasStudentWithEmail(String email) {
+        return studentRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Student validateAndGetStudentByUsername(String username) {
+        return getStudentByUsername(username).orElseThrow(() -> new IllegalArgumentException(String.format("Student with username not found!")));
+    }
+
+    @Override
+    public Student saveStudent(Student student) {
+        return studentRepository.save(student);
     }
 
 

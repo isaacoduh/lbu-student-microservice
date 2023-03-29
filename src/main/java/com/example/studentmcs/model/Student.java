@@ -20,6 +20,8 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String username;
+
     @Column(name = "student_id")
     private String studentId;
 
@@ -33,15 +35,22 @@ public class Student {
     @Email
     private String email;
 
+    private String password;
+
+    private String role;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Course> courses;
 
-    public  Student(String studentId,String firstName, String lastName, String email)
+    public  Student(String username, String studentId,String firstName, String lastName, String email, String password, String role)
     {
+        this.username = username;
         this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     // save point
