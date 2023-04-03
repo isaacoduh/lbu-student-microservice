@@ -20,6 +20,6 @@ public class TestController {
 
     @GetMapping("/cuser")
     public String currentUsername(@AuthenticationPrincipal Student student){
-        return student.getStudentId();
+        return student.getEmail();
     }
 }

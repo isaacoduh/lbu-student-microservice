@@ -1,5 +1,7 @@
 package com.example.studentmcs.controller;
 
+import com.example.studentmcs.dto.StudentPlainDto;
+import com.example.studentmcs.dto.StudentProfileDto;
 import com.example.studentmcs.dto.requestDto.StudentRequestDto;
 import com.example.studentmcs.dto.responseDto.StudentResponseDto;
 import com.example.studentmcs.model.Student;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +28,15 @@ public class StudentController {
         return ResponseEntity.ok("Hello from Secure Student Endpoint");
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<StudentProfileDto> currentUserProfileInformation(@AuthenticationPrincipal Student student){
+        StudentProfileDto studentProfileDto = new StudentProfileDto();
+        studentProfileDto.setStudentId(student.getStudentId());
+        studentProfileDto.setFirstName(student.getFirstName());
+        studentProfileDto.setLastName(student.getLastName());
+        studentProfileDto.setEmail(student.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).body(studentProfileDto);
+    }
     @Autowired
     public StudentController(IStudentService studentService){
         this.studentService = studentService;
