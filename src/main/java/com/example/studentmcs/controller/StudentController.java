@@ -2,6 +2,7 @@ package com.example.studentmcs.controller;
 
 import com.example.studentmcs.dto.StudentPlainDto;
 import com.example.studentmcs.dto.StudentProfileDto;
+import com.example.studentmcs.dto.requestDto.ProfileUpdateDto;
 import com.example.studentmcs.dto.requestDto.StudentRequestDto;
 import com.example.studentmcs.dto.responseDto.StudentResponseDto;
 import com.example.studentmcs.model.Student;
@@ -29,6 +30,7 @@ public class StudentController {
     }
 
     @GetMapping("/profile")
+    @PreAuthorize("hasAuthority('STUDENT')")
     public ResponseEntity<StudentProfileDto> currentUserProfileInformation(@AuthenticationPrincipal Student student){
         StudentProfileDto studentProfileDto = new StudentProfileDto();
         studentProfileDto.setStudentId(student.getStudentId());
@@ -36,6 +38,13 @@ public class StudentController {
         studentProfileDto.setLastName(student.getLastName());
         studentProfileDto.setEmail(student.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(studentProfileDto);
+    }
+
+    @PutMapping("/profile/update")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public ResponseEntity<Student> updateProfileAuth(@AuthenticationPrincipal Student student, @RequestBody final ProfileUpdateDto profileUpdateDto){
+        Student studentToUpdate = studentService.updateStudentProfileAuth(student.getEmail(), profileUpdateDto);
+        return ResponseEntity.status(HttpStatus.OK).body(studentToUpdate);
     }
     @Autowired
     public StudentController(IStudentService studentService){

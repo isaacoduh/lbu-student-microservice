@@ -1,5 +1,6 @@
 package com.example.studentmcs.service;
 
+import com.example.studentmcs.dto.requestDto.ProfileUpdateDto;
 import com.example.studentmcs.dto.requestDto.StudentRequestDto;
 import com.example.studentmcs.dto.mapper;
 
@@ -46,6 +47,10 @@ public class StudentService implements IStudentService {
         return studentRepository.findById(studentId).orElseThrow(() -> new IllegalArgumentException("student with studentId: " + studentId + " could not be found!"));
     }
 
+    public Student viewStudentByEmail(String email){
+        return studentRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("student with email: " + email + " could not be found!"));
+    }
+
     @Override
     public Student getStudent(Long studentId) {
         Student student = studentRepository.findById(studentId).orElseThrow(
@@ -61,6 +66,17 @@ public class StudentService implements IStudentService {
         studentProfileToUpdate.setEmail(studentRequestDto.getEmail());
         studentProfileToUpdate.setFirstName(studentRequestDto.getFirstName());
         studentProfileToUpdate.setLastName(studentRequestDto.getLastName());
+        return studentRepository.save(studentProfileToUpdate);
+    }
+
+    @Transactional
+    @Override
+    public Student updateStudentProfileAuth(String email, ProfileUpdateDto profileUpdateDto) {
+        Student studentProfileToUpdate = viewStudentByEmail(email);
+        System.out.print(profileUpdateDto.getFirstName());
+        System.out.print(profileUpdateDto.getLastName());
+        studentProfileToUpdate.setFirstName(profileUpdateDto.getFirstName());
+        studentProfileToUpdate.setLastName(profileUpdateDto.getLastName());
         return studentRepository.save(studentProfileToUpdate);
     }
 
