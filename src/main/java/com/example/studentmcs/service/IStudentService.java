@@ -1,5 +1,6 @@
 package com.example.studentmcs.service;
 
+import com.example.studentmcs.dto.requestDto.ProfileUpdateDto;
 import com.example.studentmcs.dto.requestDto.StudentRequestDto;
 import com.example.studentmcs.dto.responseDto.StudentResponseDto;
 import com.example.studentmcs.model.Student;
@@ -16,6 +17,7 @@ public interface IStudentService {
     public Student getStudent(Long studentId);
     public Student updateStudentProfile(Long studentId, StudentRequestDto studentRequestDto);
 
+    public Student updateStudentProfileAuth(String email, ProfileUpdateDto profileUpdateDto);
     Optional<Student> getStudentByUsername(String username);
 
     boolean hasStudentWithUsername(String username);
