@@ -21,7 +21,10 @@ public class StudentDto {
 
     public static StudentDto from (Student student){
         List<Course> courses = student.getCourses();
-        List<CoursePlainDto> coursePlainDtos = courses.stream().map(CoursePlainDto::from).toList();
+        List<CoursePlainDto> coursePlainDtos = courses
+                .stream()
+                .map(CoursePlainDto::from)
+                .toList();
         return StudentDto.builder()
                 .email(student.getEmail())
                 .courses(coursePlainDtos)

@@ -1,5 +1,6 @@
 package com.example.studentmcs.controller;
 
+import com.example.studentmcs.dto.StudentDto;
 import com.example.studentmcs.dto.StudentPlainDto;
 import com.example.studentmcs.dto.StudentProfileDto;
 import com.example.studentmcs.dto.requestDto.ProfileUpdateDto;
@@ -45,6 +46,16 @@ public class StudentController {
     public ResponseEntity<Student> updateProfileAuth(@AuthenticationPrincipal Student student, @RequestBody final ProfileUpdateDto profileUpdateDto){
         Student studentToUpdate = studentService.updateStudentProfileAuth(student.getEmail(), profileUpdateDto);
         return ResponseEntity.status(HttpStatus.OK).body(studentToUpdate);
+    }
+
+    @PostMapping("/enroll/{courseId}")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public ResponseEntity<StudentDto> enrollInCourse(
+            @AuthenticationPrincipal Student student,
+            @PathVariable("courseId") final Long courseId)
+    {
+        Student studentObj = studentService.enrollInCourse(student.getEmail(), courseId);
+        return ResponseEntity.status(HttpStatus.OK).body(StudentDto.from(studentObj));
     }
     @Autowired
     public StudentController(IStudentService studentService){

@@ -11,5 +11,5 @@ public interface IProjectService {
     Project getProjectById(Long id);
     Project saveProject(Project project);
     Project updateProject(Project project);
-    Project deleteProject(Long id);
+//    Project deleteProject(Long id);
 }

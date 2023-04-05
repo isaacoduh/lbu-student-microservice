@@ -41,15 +41,15 @@ public class ProjectService implements IProjectService{
         return null;
     }
 
-    @Override
-    public Project deleteProject(Long id) {
-        Project project = getProjectById(id);
-        project.setIsActive(false);
-        List<Staff> staffList = project.getStaffList();
-        for(Staff staff: staffList){
-            staff.getProjects().remove(project);
-            staffRepository.save(staff);
-        }
-        return projectRepository.save(project);
-    }
+//    @Override
+//    public Project deleteProject(Long id) {
+//        Project project = getProjectById(id);
+//        project.setIsActive(false);
+//        List<Staff> staffList = project.getStaffList();
+//        for(Staff staff: staffList){
+//            staff.getProjects().remove(project);
+//            staffRepository.save(staff);
+//        }
+//        return projectRepository.save(project);
+//    }
 }

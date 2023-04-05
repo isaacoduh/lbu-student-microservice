@@ -1,5 +1,6 @@
 package com.example.studentmcs;
 
+import com.example.studentmcs.dto.CourseDto;
 import com.example.studentmcs.model.Course;
 import com.example.studentmcs.repository.CourseRepository;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ public class MiscBeans {
     @Bean
     CommandLineRunner initDatabase(CourseRepository courseRepository){
         return args -> {
+
             Course sesc = new Course("COMP720","Software and Systems","WIN");
             Course pmgt = new Course("COMP753", "Project Management", "WIN");
             Course sas = new Course("COMP720", "Software and Systems", "WIN");

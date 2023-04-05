@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/projects")
+@RequestMapping("/api/un/projects")
 public class ProjectController {
     private final IProjectService projectService;
 
@@ -41,9 +41,9 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ProjectDto.from(project));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ProjectDto> deleteProject(@PathVariable final Long id){
-        Project project = projectService.deleteProject(id);
-        return ResponseEntity.status(HttpStatus.OK).body(ProjectDto.from(project));
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<ProjectDto> deleteProject(@PathVariable final Long id){
+//        Project project = projectService.deleteProject(id);
+//        return ResponseEntity.status(HttpStatus.OK).body(ProjectDto.from(project));
+//    }
 }

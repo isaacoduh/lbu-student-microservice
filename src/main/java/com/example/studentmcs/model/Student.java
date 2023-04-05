@@ -4,25 +4,23 @@ import com.example.studentmcs.dto.StudentDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
-@Builder
-@Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Builder
+@Entity
 @Table(name = "tbl_students")
 public class Student implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "seq_student", sequenceName = "seq_student", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_student")
     private Long id;
 
     private String username;
@@ -47,10 +45,11 @@ public class Student implements UserDetails {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "student_project",
+            name = "student_course",
             joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")}
     )
+    @ToString.Exclude
     private List<Course> courses  = new ArrayList<>();
 
     public static Student from (StudentDto studentDto){
@@ -73,17 +72,17 @@ public class Student implements UserDetails {
 
     // save point
 
-    public void addCourse(Course course)
-    {
+//    public void addCourse(Course course)
+//    {
+//
+//        courses.add(course);
+//    }
 
-        courses.add(course);
-    }
-
-    public void removeCourse(Course course)
-    {
-        courses.remove(course);
-    }
-
+//    public void removeCourse(Course course)
+//    {
+//        courses.remove(course);
+//    }
+    public void addCourseToStudent(Course course) {this.getCourses().add(course);}
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
