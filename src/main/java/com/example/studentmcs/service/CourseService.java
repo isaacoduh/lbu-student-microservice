@@ -14,23 +14,21 @@ import java.util.stream.StreamSupport;
 @Service
 public class CourseService implements ICourseService {
     private final CourseRepository courseRepository;
-    private final IStudentService studentService;
 
-    public CourseService(CourseRepository courseRepository, IStudentService studentService){
+    public CourseService(CourseRepository courseRepository){
         this.courseRepository = courseRepository;
-        this.studentService = studentService;
     }
-    @Override
-    public List<CourseResponseDto> getAllCourses() {
 
-        List<Course> courses = StreamSupport.stream(courseRepository.findAll().spliterator(), false).collect(Collectors.toList());
-        return mapper.coursesToCourseResponseDtos(courses);
-    }
 
     @Override
     public List<Course> searchCourses(String query) {
         List<Course> courses = courseRepository.searchCourses(query);
         return courses;
+    }
+
+    @Override
+    public List<Course> getAllCourse() {
+        return courseRepository.findAll();
     }
 
     @Override
@@ -40,28 +38,28 @@ public class CourseService implements ICourseService {
         return course;
     }
 
-    @Override
-    public CourseResponseDto addStudentToCourse(Long courseId, Long studentId) {
-        Course course = getCourse(courseId);
-        Student student = studentService.getStudent(studentId);
-        if(student.getCourses().contains(student)){
-            throw new IllegalArgumentException("this student is already enrolled in this course");
-        }
-        course.addStudent(student);
-        student.addCourse(course);
-        courseRepository.save(course);
-        return mapper.courseToCourseResponseDto(course);
-    }
+//    @Override
+//    public CourseResponseDto addStudentToCourse(Long courseId, Long studentId) {
+//        Course course = getCourse(courseId);
+//        Student student = studentService.getStudent(studentId);
+//        if(student.getCourses().contains(student)){
+//            throw new IllegalArgumentException("this student is already enrolled in this course");
+//        }
+//        course.addStudent(student);
+//        student.addCourse(course);
+//        courseRepository.save(course);
+//        return mapper.courseToCourseResponseDto(course);
+//    }
 
-    @Override
-    public CourseResponseDto removeStudentFromCourse(Long courseId, Long studentId) {
-        Course course = getCourse(courseId);
-        Student student = studentService.getStudent(studentId);
-        if(!(student.getCourses().contains(course))){
-            throw new IllegalArgumentException("course does not have this student enrolled!");
-        }
-        student.removeCourse(course);
-        course.deleteStudent(student);
-        return mapper.courseToCourseResponseDto(course);
-    }
+//    @Override
+//    public CourseResponseDto removeStudentFromCourse(Long courseId, Long studentId) {
+//        Course course = getCourse(courseId);
+//        Student student = studentService.getStudent(studentId);
+//        if(!(student.getCourses().contains(course))){
+//            throw new IllegalArgumentException("course does not have this student enrolled!");
+//        }
+//        student.removeCourse(course);
+//        course.deleteStudent(student);
+//        return mapper.courseToCourseResponseDto(course);
+//    }
 }

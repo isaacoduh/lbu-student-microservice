@@ -5,6 +5,7 @@ import com.example.studentmcs.dto.requestDto.StudentRequestDto;
 import com.example.studentmcs.dto.mapper;
 
 import com.example.studentmcs.dto.responseDto.StudentResponseDto;
+import com.example.studentmcs.model.Course;
 import com.example.studentmcs.model.Student;
 import com.example.studentmcs.repository.StudentRepository;
 import jakarta.transaction.Transactional;
@@ -19,9 +20,11 @@ import java.util.stream.StreamSupport;
 @Service
 public class StudentService implements IStudentService {
     private final StudentRepository studentRepository;
+    private final ICourseService courseService;
 
-    public StudentService(StudentRepository studentRepository){
+    public StudentService(StudentRepository studentRepository, ICourseService courseService){
         this.studentRepository = studentRepository;
+        this.courseService = courseService;
     }
 
     @Override
@@ -36,10 +39,11 @@ public class StudentService implements IStudentService {
 
     @Override
     public List<StudentResponseDto> getAllStudents() {
-        List<Student> students = StreamSupport.stream(
-                studentRepository.findAll().spliterator(), false
-        ).collect(Collectors.toList());
-        return mapper.studentsToStudentResponseDtos(students);
+//        List<Student> students = StreamSupport.stream(
+//                studentRepository.findAll().spliterator(), false
+//        ).collect(Collectors.toList());
+//        return mapper.studentsToStudentResponseDtos(students);
+        return null;
     }
 
     @Override
@@ -78,6 +82,15 @@ public class StudentService implements IStudentService {
         studentProfileToUpdate.setFirstName(profileUpdateDto.getFirstName());
         studentProfileToUpdate.setLastName(profileUpdateDto.getLastName());
         return studentRepository.save(studentProfileToUpdate);
+    }
+
+    @Override
+    public Student enrollInCourse(String email, Long courseId) {
+        Student student = viewStudentByEmail(email);
+        System.out.print(student);
+        Course course = courseService.getCourse(courseId);
+        student.addCourseToStudent(course);
+        return studentRepository.save(student);
     }
 
     @Override

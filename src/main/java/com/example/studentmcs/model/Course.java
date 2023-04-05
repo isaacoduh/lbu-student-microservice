@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ManyToAny;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,12 @@ import java.util.List;
 @Table(name = "tbl_courses")
 public class Course {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "seq_course",
+            sequenceName = "seq_course",
+            allocationSize = 1
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_course")
     private Long id;
 
     @Column(name = "course_id")
@@ -52,11 +56,11 @@ public class Course {
 
 
 
-//    public Course(String courseId, String courseTitle, String courseTerm){
-//        this.courseId = courseId;
-//        this.courseTitle = courseTitle;
-//        this.courseTerm = courseTerm;
-//    }
+    public Course(String courseId, String courseTitle, String courseTerm){
+        this.courseId = courseId;
+        this.courseTitle = courseTitle;
+        this.courseTerm = courseTerm;
+    }
 //
 //    public void addStudent(Student student){
 //        students.add(student);
