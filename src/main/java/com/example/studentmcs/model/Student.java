@@ -1,5 +1,6 @@
 package com.example.studentmcs.model;
 
+import com.example.studentmcs.dto.StudentDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -44,8 +45,21 @@ public class Student implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Course> courses;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "student_project",
+            joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")}
+    )
+    private List<Course> courses  = new ArrayList<>();
+
+    public static Student from (StudentDto studentDto){
+        return Student
+                .builder()
+                .email(studentDto.getEmail())
+                .courses(new ArrayList<>())
+                .build();
+    }
 
 //    public  Student(String studentId,String firstName, String lastName, String email, String password)
 //    {

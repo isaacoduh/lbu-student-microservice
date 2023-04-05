@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StudentPlainDto {
 
-    private String username;
+    private String email;
 
     public static StudentPlainDto from(Student student){
         return StudentPlainDto
                 .builder()
-                .username(student.getUsername())
+                .email(student.getEmail())
                 .build();
     }
 }

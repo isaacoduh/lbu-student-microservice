@@ -28,13 +28,10 @@ public class Staff {
     private Boolean isActive;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "staff_project",
-            joinColumns = {
-                @JoinColumn(name = "staff_id", referencedColumnName = "id")
-            },
-            inverseJoinColumns = {
-            @JoinColumn(name = "project_id", referencedColumnName = "id")
-            }
+    @JoinTable(
+            name = "staff_project",
+            joinColumns = {@JoinColumn(name = "staff_id", referencedColumnName = "id")},
+            inverseJoinColumns = { @JoinColumn(name = "project_id", referencedColumnName = "id")}
     )
     private List<Project> projects = new ArrayList<>();
 
