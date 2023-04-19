@@ -3,6 +3,7 @@ package com.example.studentmcs.controller;
 import com.example.studentmcs.dto.StudentDto;
 import com.example.studentmcs.dto.StudentPlainDto;
 import com.example.studentmcs.dto.StudentProfileDto;
+import com.example.studentmcs.dto.requestDto.EnrollmentDto;
 import com.example.studentmcs.dto.requestDto.ProfileUpdateDto;
 import com.example.studentmcs.dto.requestDto.StudentRequestDto;
 import com.example.studentmcs.dto.responseDto.StudentResponseDto;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/student")
 public class StudentController {
@@ -48,13 +50,21 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(studentToUpdate);
     }
 
-    @PostMapping("/enroll/{courseId}")
+    @PostMapping("/enroll")
     @PreAuthorize("hasAuthority('STUDENT')")
     public ResponseEntity<StudentDto> enrollInCourse(
             @AuthenticationPrincipal Student student,
-            @PathVariable("courseId") final Long courseId)
+            @RequestBody final EnrollmentDto enrollmentDto)
     {
-        Student studentObj = studentService.enrollInCourse(student.getEmail(), courseId);
+        System.out.println(enrollmentDto.getId());
+        Student studentObj = studentService.enrollInCourse(student.getEmail(), enrollmentDto.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(StudentDto.from(studentObj));
+    }
+
+    @GetMapping("/enrollments")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public ResponseEntity<StudentDto> getMyEnrollments(@AuthenticationPrincipal Student student){
+        Student studentObj = studentService.getStudentEnrollments(student.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(StudentDto.from(studentObj));
     }
     @Autowired

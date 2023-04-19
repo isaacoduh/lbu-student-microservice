@@ -20,6 +20,8 @@ public interface IStudentService {
     public Student updateStudentProfileAuth(String email, ProfileUpdateDto profileUpdateDto);
 
     public Student enrollInCourse(String email, Long courseId);
+
+    public Student getStudentEnrollments(String email);
     Optional<Student> getStudentByUsername(String username);
 
     boolean hasStudentWithUsername(String username);

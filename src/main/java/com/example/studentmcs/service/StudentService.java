@@ -73,7 +73,7 @@ public class StudentService implements IStudentService {
         return studentRepository.save(studentProfileToUpdate);
     }
 
-    @Transactional
+//    @Transactional
     @Override
     public Student updateStudentProfileAuth(String email, ProfileUpdateDto profileUpdateDto) {
         Student studentProfileToUpdate = viewStudentByEmail(email);
@@ -91,6 +91,13 @@ public class StudentService implements IStudentService {
         Course course = courseService.getCourse(courseId);
         student.addCourseToStudent(course);
         return studentRepository.save(student);
+    }
+
+    @Override
+    public Student getStudentEnrollments(String email) {
+        Student student = viewStudentByEmail(email);
+        System.out.print(student);
+        return student;
     }
 
     @Override
