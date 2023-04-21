@@ -56,4 +56,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
+
+    // TODO: Generate a unique student ID;
 }
