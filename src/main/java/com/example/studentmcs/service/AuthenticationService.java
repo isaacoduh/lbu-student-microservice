@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -35,7 +37,7 @@ public class AuthenticationService {
                 .lastName(signUpRequest.getLastName())
                 .email(signUpRequest.getEmail())
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
-                .studentId(signUpRequest.getStudentId())
+                .studentId(generateStudentId())
                 .role(Role.STUDENT)
                 .build();
 
@@ -59,4 +61,25 @@ public class AuthenticationService {
 
 
     // TODO: Generate a unique student ID;
+
+    private static String generateStudentId()
+    {
+        // Define the characters that can be used in the student ID
+        String characterSet = "0123456789";
+
+        // Create a StringBuilder to store the student ID
+        StringBuilder studentId = new StringBuilder();
+
+        // Add the letter 'c' to the beginning of the student ID
+        studentId.append("c");
+
+
+        Random random = new Random();
+
+        for(int i = 0; i<7; i++) {
+            int index = random.nextInt(characterSet.length());
+            studentId.append(characterSet.charAt(index));
+        }
+        return studentId.toString();
+    }
 }
