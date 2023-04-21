@@ -1,6 +1,7 @@
 package com.example.studentmcs.model;
 
 import com.example.studentmcs.dto.StudentDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -44,6 +45,7 @@ public class Student implements UserDetails {
     private Role role;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(
             name = "student_course",
             joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
