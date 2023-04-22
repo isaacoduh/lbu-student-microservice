@@ -22,6 +22,8 @@ public class CourseDto {
     private String courseTitle;
     private String courseTerm;
 
+    private Float courseFee;
+
     private List<StudentPlainDto> studentList = new ArrayList<>();
 
     public static CourseDto from(Course course){
@@ -33,6 +35,7 @@ public class CourseDto {
                 .courseId(course.getCourseId())
                 .courseTitle(course.getCourseTitle())
                 .courseTerm(course.getCourseTerm())
+                .courseFee(course.getCourseFee())
                 .studentList(studentPlainDtos)
                 .build();
     }
