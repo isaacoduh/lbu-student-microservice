@@ -35,6 +35,9 @@ public class Course {
     @Column(name = "course_term")
     private String courseTerm;
 
+    @Column(name = "course_fee")
+    private Float courseFee;
+
     @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER)
 //    @JoinTable(
 //            name = "student_course",
@@ -50,16 +53,18 @@ public class Course {
                 .courseId(courseDto.getCourseId())
                 .courseTitle(courseDto.getCourseTitle())
                 .courseTerm(courseDto.getCourseTerm())
+                .courseFee(courseDto.getCourseFee())
                 .studentList(new ArrayList<>())
                 .build();
     }
 
 
 
-    public Course(String courseId, String courseTitle, String courseTerm){
+    public Course(String courseId, String courseTitle, String courseTerm, Float courseFee){
         this.courseId = courseId;
         this.courseTitle = courseTitle;
         this.courseTerm = courseTerm;
+        this.courseFee = courseFee;
     }
 //
 //    public void addStudent(Student student){

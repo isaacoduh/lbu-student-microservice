@@ -17,12 +17,15 @@ public class CoursePlainDto {
     private String courseTitle;
     private String courseTerm;
 
+    private Float courseFee;
+
     public static CoursePlainDto from (Course course){
         return CoursePlainDto.builder()
                 .id(course.getId())
                 .courseId(course.getCourseId())
                 .courseTitle(course.getCourseTitle())
                 .courseTerm(course.getCourseTerm())
+                .courseFee(course.getCourseFee())
                 .build();
     }
 
