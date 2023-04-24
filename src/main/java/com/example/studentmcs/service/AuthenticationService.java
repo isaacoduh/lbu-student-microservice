@@ -3,6 +3,7 @@ package com.example.studentmcs.service;
 import com.example.studentmcs.dto.AuthenticationResponse;
 import com.example.studentmcs.dto.requestDto.LoginRequest;
 import com.example.studentmcs.dto.requestDto.SignUpRequest;
+import com.example.studentmcs.model.Account;
 import com.example.studentmcs.model.Role;
 import com.example.studentmcs.model.Student;
 import com.example.studentmcs.repository.StudentRepository;
@@ -31,6 +32,9 @@ public class AuthenticationService {
     @Autowired
     private final AuthenticationManager authenticationManager;
 
+    @Autowired
+    private final IntegrationService integrationService;
+
     public AuthenticationResponse createAccount(SignUpRequest signUpRequest){
         var student = Student.builder()
                 .firstName(signUpRequest.getFirstName())
@@ -42,6 +46,16 @@ public class AuthenticationService {
                 .build();
 
         studentRepository.save(student);
+
+        // generate a new account object
+        Account account = new Account();
+        account.setStudentId(student.getStudentId());
+        account.setHasOutstandingBalance(false);
+        System.out.print(account);
+
+        integrationService.postAccountData(account);
+
+        System.out.println(account);
 
         var jwtToken = jwtService.generateTokenFromUserDetails(student);
         return AuthenticationResponse.builder().token(jwtToken).build();

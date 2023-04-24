@@ -28,7 +28,7 @@ public class IntegrationService {
         HttpEntity<Account> requestEntity = new HttpEntity<>(account, headers);
 
         ResponseEntity<Void> responseEntity = webClient.post()
-                .uri("http://localhost:3500/api/v1/webhook/listen")
+                .uri("http://localhost:3500/api/v1/accounts")
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .bodyValue(account)
                 .retrieve()
