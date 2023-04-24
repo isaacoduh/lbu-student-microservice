@@ -1,6 +1,7 @@
 package com.example.studentmcs.service;
 
 import com.example.studentmcs.model.Account;
+import com.example.studentmcs.model.Invoice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
@@ -18,6 +19,30 @@ public class IntegrationService {
 
     public IntegrationService(WebClient webClient) {
         this.webClient = webClient;
+    }
+
+    public void postInvoiceData(Invoice invoice)
+    {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Invoice> requestEntity = new HttpEntity<>(invoice, headers);
+
+        ResponseEntity<Void> responseEntity = webClient.post()
+                .uri("http://localhost:3500/api/v1/invoices")
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .bodyValue(invoice)
+                .retrieve()
+                .toBodilessEntity()
+                .block();
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            // Request succeeded
+            System.out.println("Invoice data posted successfully");
+            System.out.print(responseEntity.getBody());
+        } else {
+            // Request failed
+            System.err.println("Failed to post invoice data. Status code: " + responseEntity.getStatusCode());
+        }
     }
 
     public void postAccountData(Account account)

@@ -22,7 +22,7 @@ public class CourseDto {
     private String courseTitle;
     private String courseTerm;
 
-    private Float courseFee;
+    private Double courseFee;
 
     private List<StudentPlainDto> studentList = new ArrayList<>();
 
