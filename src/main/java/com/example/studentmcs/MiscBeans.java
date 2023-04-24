@@ -8,12 +8,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class MiscBeans {
 
     private static final Logger log = LoggerFactory.getLogger(MiscBeans.class);
 
+
+    @Bean
+    public WebClient webClient() {
+        return WebClient.create();
+    }
 
     @Bean
     CommandLineRunner initDatabase(CourseRepository courseRepository){
