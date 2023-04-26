@@ -43,40 +43,6 @@ public class IntegrationService {
                 .uri("http://localhost:3500/api/v1/check/" + studentId + "/status")
                 .retrieve()
                 .bodyToMono(Boolean.class);
-//                .map(StudentStatus::isHasOutstandingBalance);
-//        return webClient.get()
-//                .uri(uriBuilder -> uriBuilder
-//                        .path("http://localhost:3500/api/v1/check/{studentId}/status")
-//                        .build(studentId)
-//                ).retrieve()
-//                .bodyToMono(StudentStatus.class)
-//                .map(StudentStatus::isHasOutstandingBalance);
-//        return webClient.get()
-//                .uri("http://localhost:3500/api/v1/check/{studentId}", studentId)
-//                .headers(httpHeaders -> httpHeaders.addAll(headers))
-//                .retrieve()
-//                .bodyToMono(String.class)
-//                .map(responseBody -> {
-//                    // Print response body directly
-//                    System.out.println(responseBody);
-//                    // Extract and return the boolean value
-//                    return Boolean.parseBoolean(responseBody);
-//                });
-
-//        String uriString = "";
-//        return webClient.get()
-//                .uri(uriString, studentId)
-//                .retrieve()
-//                .bodyToMono(StudentStatus.class)
-//                .map(StudentStatus::isHasOutstandingBalance);
-//        return webClient.get()
-//                .uri(uriBuilder ->
-//                        uriBuilder
-//                                .path(uriString)
-//                                .queryParam("studentId", studentId)
-//                                .build()
-//                ).retrieve()
-//                .bodyToMono(Boolean.class);
     }
 
     private static class StudentStatus {
