@@ -2,29 +2,35 @@ package com.example.studentmcs.service;
 
 import com.example.studentmcs.dto.requestDto.ProfileUpdateDto;
 import com.example.studentmcs.dto.requestDto.StudentRequestDto;
-import com.example.studentmcs.dto.mapper;
 
 import com.example.studentmcs.dto.responseDto.StudentResponseDto;
+import com.example.studentmcs.model.Account;
 import com.example.studentmcs.model.Course;
+import com.example.studentmcs.model.Invoice;
 import com.example.studentmcs.model.Student;
 import com.example.studentmcs.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.UUID;
 
 @Service
 public class StudentService implements IStudentService {
     private final StudentRepository studentRepository;
     private final ICourseService courseService;
 
-    public StudentService(StudentRepository studentRepository, ICourseService courseService){
+    private final IntegrationService integrationService;
+
+    public StudentService(StudentRepository studentRepository, ICourseService courseService, IntegrationService integrationService){
         this.studentRepository = studentRepository;
         this.courseService = courseService;
+        this.integrationService = integrationService;
     }
 
     @Override
@@ -90,7 +96,28 @@ public class StudentService implements IStudentService {
         System.out.print(student);
         Course course = courseService.getCourse(courseId);
         student.addCourseToStudent(course);
-        return studentRepository.save(student);
+
+        var saveStudent = studentRepository.save(student);
+
+        // generate an account
+        Account account = new Account();
+        account.setId(1L);
+        account.setStudentId(student.getStudentId());
+        account.setHasOutstandingBalance(true);
+
+        // generate an invoice
+        Invoice invoice = new Invoice();
+        invoice.setId(1L);
+        invoice.setReference(generateInvoiceReference());
+        invoice.setAmount(course.getCourseFee());
+        invoice.setDueDate(LocalDate.parse(LocalDate.now().plusWeeks(3).format(DateTimeFormatter.ISO_LOCAL_DATE)));
+        invoice.setType(Invoice.Type.TUITION_FEE);
+        invoice.setStatus(Invoice.Status.OUTSTANDING);
+        invoice.setAccount(account);
+
+        integrationService.postInvoiceData(invoice);
+
+        return saveStudent;
     }
 
     @Override
@@ -123,6 +150,32 @@ public class StudentService implements IStudentService {
     @Override
     public Student saveStudent(Student student) {
         return studentRepository.save(student);
+    }
+
+    @Override
+    public Mono<Boolean> checkGraduation(String studentId) {
+        System.out.print("String from student service" + studentId);
+        return integrationService.getGraudationStatusForStudentId(studentId);
+    }
+
+    public Boolean getGraduationStatus(String studentId){
+        return integrationService.getGraduationStatus(studentId);
+    }
+
+
+    public static String generateInvoiceReference() {
+        UUID uuid = UUID.randomUUID();
+        String reference = uuid.toString().substring(0, 8);
+        return reference;
+    }
+
+    public static String generateDueDate()
+    {
+        LocalDate due = LocalDate.now().plusWeeks(3);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dueDateStr = due.format(formatter);
+
+        return dueDateStr;
     }
 
 

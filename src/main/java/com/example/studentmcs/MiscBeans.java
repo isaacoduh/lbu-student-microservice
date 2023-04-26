@@ -25,13 +25,13 @@ public class MiscBeans {
     CommandLineRunner initDatabase(CourseRepository courseRepository){
         return args -> {
 
-            Course sesc = new Course("COMP720","Software and Systems","WIN", 230.00F);
-            Course pmgt = new Course("COMP753", "Project Management", "WIN", 130.00F);
-            Course sas = new Course("COMP720", "Software and Systems", "WIN", 120.00F);
+            Course sesc = new Course("COMP720","Software and Systems","WIN", 230.00);
+            Course pmgt = new Course("COMP753", "Project Management", "WIN", 130.00);
+            Course sas = new Course("COMP720", "Software and Systems", "WIN", 120.00);
 
-            Course rspractice = new Course("COMP738", "Research Practice", "AUT", 180.00F);
-            Course dav = new Course("COMP757", "Data Analytics and Visualization", "AUT", 240.00F);
-            Course adse = new Course("COMP725", "Advanced Software Engineering", "AUT", 290.00F);
+            Course rspractice = new Course("COMP738", "Research Practice", "AUT", 180.00);
+            Course dav = new Course("COMP757", "Data Analytics and Visualization", "AUT", 240.00);
+            Course adse = new Course("COMP725", "Advanced Software Engineering", "AUT", 290.00);
 
             courseRepository.save(sesc);
             courseRepository.save(pmgt);

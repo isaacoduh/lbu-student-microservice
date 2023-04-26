@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -59,6 +60,26 @@ public class StudentController {
         System.out.println(enrollmentDto.getId());
         Student studentObj = studentService.enrollInCourse(student.getEmail(), enrollmentDto.getId());
         return ResponseEntity.status(HttpStatus.OK).body(StudentDto.from(studentObj));
+    }
+
+    @GetMapping("/check/graduation")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public ResponseEntity<?> checkMyStatus(@AuthenticationPrincipal Student student) {
+//        Student studentObj = studentService.checkMyStatus(student.getEmail());
+        System.out.print("String from controller" + student.getStudentId());
+        Mono<Boolean> status = studentService.checkGraduation(student.getStudentId());
+        return ResponseEntity.status(HttpStatus.OK).body(status);
+    }
+
+    @GetMapping("/status")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public ResponseEntity<?> checkStatus(@AuthenticationPrincipal Student student)
+    {
+        System.out.print("String from controller " + student.getStudentId());
+        Boolean status = studentService.getGraduationStatus(student.getStudentId());
+
+        System.out.print(status);
+        return ResponseEntity.status(HttpStatus.OK).body(status);
     }
 
     @GetMapping("/enrollments")

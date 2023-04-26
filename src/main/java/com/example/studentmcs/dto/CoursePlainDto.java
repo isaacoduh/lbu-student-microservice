@@ -17,7 +17,7 @@ public class CoursePlainDto {
     private String courseTitle;
     private String courseTerm;
 
-    private Float courseFee;
+    private Double courseFee;
 
     public static CoursePlainDto from (Course course){
         return CoursePlainDto.builder()

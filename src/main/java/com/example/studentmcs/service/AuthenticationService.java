@@ -54,6 +54,7 @@ public class AuthenticationService {
         System.out.print(account);
 
         integrationService.postAccountData(account);
+        integrationService.postLibraryData(account);
 
         System.out.println(account);
 

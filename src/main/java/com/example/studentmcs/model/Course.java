@@ -36,7 +36,7 @@ public class Course {
     private String courseTerm;
 
     @Column(name = "course_fee")
-    private Float courseFee;
+    private Double courseFee;
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER)
 //    @JoinTable(
@@ -60,7 +60,7 @@ public class Course {
 
 
 
-    public Course(String courseId, String courseTitle, String courseTerm, Float courseFee){
+    public Course(String courseId, String courseTitle, String courseTerm, Double courseFee){
         this.courseId = courseId;
         this.courseTitle = courseTitle;
         this.courseTerm = courseTerm;
