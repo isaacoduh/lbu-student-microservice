@@ -2,7 +2,6 @@ package com.example.studentmcs.service;
 
 import com.example.studentmcs.dto.requestDto.ProfileUpdateDto;
 import com.example.studentmcs.dto.requestDto.StudentRequestDto;
-import com.example.studentmcs.dto.mapper;
 
 import com.example.studentmcs.dto.responseDto.StudentResponseDto;
 import com.example.studentmcs.model.Account;
@@ -12,16 +11,14 @@ import com.example.studentmcs.model.Student;
 import com.example.studentmcs.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 
-import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class StudentService implements IStudentService {
@@ -153,6 +150,16 @@ public class StudentService implements IStudentService {
     @Override
     public Student saveStudent(Student student) {
         return studentRepository.save(student);
+    }
+
+    @Override
+    public Mono<Boolean> checkGraduation(String studentId) {
+        System.out.print("String from student service" + studentId);
+        return integrationService.getGraudationStatusForStudentId(studentId);
+    }
+
+    public Boolean getGraduationStatus(String studentId){
+        return integrationService.getGraduationStatus(studentId);
     }
 
 

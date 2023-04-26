@@ -5,6 +5,7 @@ import com.example.studentmcs.dto.requestDto.StudentRequestDto;
 import com.example.studentmcs.dto.responseDto.StudentResponseDto;
 import com.example.studentmcs.model.Student;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,5 +32,9 @@ public interface IStudentService {
     Student validateAndGetStudentByUsername(String username);
 
     Student saveStudent(Student student);
-    // TODO: Add Graduation
+
+    Mono<Boolean> checkGraduation(String studentId);
+
+    Boolean getGraduationStatus(String studentId);
+
 }
