@@ -1,0 +1,83 @@
+services:
+  db:
+    ports:
+      - 5432:5432
+    container_name: postgresql_container
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin2
+      - POSTGRES_PASSWORD=admin2
+      - POSTGRES_DB=MYDB2
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_container
+    ports:
+      - 4100:4100
+    environment:
+      db-url: jdbc:postgresql://db:5432/MYDB2
+      db-username: admin2
+      db-password: admin2
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  pgdata: {}
+
+#version: '3'
+#services:
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "4000:4000"
+#    depends_on:
+#      - db
+#  db:
+#    image: postgres
+#    ports:
+#      - "5432:5432"  # Custom port for PostgreSQL
+#    environment:
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: root
+#      POSTGRES_DB: student_ms_db
+#version: "3.9"
+#services:
+#  student_ms_api:
+#    container_name: student_ms
+#    image: francescoxx/java_app:1.0.0
+#    build: .
+#    restart: always
+#    ports:
+#      - "4000:4000"
+#    environment:
+#      - DATABASE_URL=jdbc:postgresql://student_ms_db:5433/postgres
+#      - DATABASE_USERNAME=postgres
+#      - DATABASE_PASSWORD=postgres
+#    depends_on:
+#      - student_ms_db
+#
+#  student_ms_db:
+#    container_name: student_ms_db
+#    image: "postgres:15-alpine3.17"
+#    restart: always
+#    ports:
+#      - "5432:5432"
+#    environment:
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_USER: postgres
+#      POSTGRES_DB: postgres
+##      POSTGRES_DB: student-microservice-dev
+##      POSTGRES_USER: root
+##      POSTGRES_PASSWORD: root
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#volumes:
+#  pgdata: {}

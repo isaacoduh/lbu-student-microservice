@@ -28,7 +28,7 @@ public class IntegrationService {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
         return webClient.get()
-                .uri("http://localhost:3500/api/v1/check/"+studentId+"/status")
+                .uri("http://host.docker.internal:4200/api/v1/check/"+studentId+"/status")
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .retrieve()
 //                .bodyToMono();
@@ -40,7 +40,7 @@ public class IntegrationService {
 
         System.out.print("String from integration service \n: " + studentId);
         return webClient.get()
-                .uri("http://localhost:3500/api/v1/check/" + studentId + "/status")
+                .uri("http://host.docker.internal:4200/api/v1/check/" + studentId + "/status")
                 .retrieve()
                 .bodyToMono(Boolean.class);
     }
@@ -65,7 +65,7 @@ public class IntegrationService {
         HttpEntity<Invoice> requestEntity = new HttpEntity<>(invoice, headers);
 
         ResponseEntity<Void> responseEntity = webClient.post()
-                .uri("http://localhost:3500/api/v1/invoices")
+                .uri("http://host.docker.internal:4200/api/v1/invoices")
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .bodyValue(invoice)
                 .retrieve()
@@ -87,7 +87,7 @@ public class IntegrationService {
 
         HttpEntity<Account> requestEntity = new HttpEntity<>(account, headers);
         ResponseEntity<Void> responseEntity = webClient.post()
-                .uri("http://localhost:8001/api/v1/register")
+                .uri("http://host.docker.internal:4300/api/v1/register")
                 .bodyValue(account)
                 .retrieve()
                 .toBodilessEntity()
@@ -110,7 +110,7 @@ public class IntegrationService {
         HttpEntity<Account> requestEntity = new HttpEntity<>(account, headers);
 
         ResponseEntity<Void> responseEntity = webClient.post()
-                .uri("http://localhost:3500/api/v1/accounts")
+                .uri("http://host.docker.internal:4200/api/v1/accounts")
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .bodyValue(account)
                 .retrieve()
